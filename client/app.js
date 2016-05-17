@@ -1,7 +1,7 @@
 var low = require('lowdb');
 var storage = require('lowdb/browser');
 
-var db = low('data/users.json', {storage});
+var db = low('../data/users.json', {storage});
 
 var validateId = function(emailLogin,pwdLogin) {
 
