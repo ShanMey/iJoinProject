@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link type="text/css" rel="stylesheet" href="stylesheet.css"/>
+		<title>User Data Display</title>
+	</head>
+	<body>
+		<h1 id="logo">ACME Financial</h1>
+    <h3 id="welcome"> "Welcome, " + user.name.first + " " + user.name.last</h3>
+		<div class="user-data">
+       <form>
+         <div class="data-group">
+           <p class="balance-data">"Current Balance: " + user.balance</p>
+         </div>
+       </form>
+		 </div>
+     <div class="user-data">
+        <form>
+          <div class="data-group">
+            <img class="picture">user.picture</img>
+          </div>
+        </form>
+      </div>
+      <div class="user-data">
+         <form>
+           <div class="data-group">
+             <p class="age-data">"Age: " + user.age</p>
+           </div>
+         </form>
+       </div>
+       <div class="user-data">
+          <form>
+            <div class="data-group">
+              <p class="eye-data">"Eye Color: " + user.eyeColor</p>
+            </div>
+          </form>
+        </div>
+        <div class="user-data">
+           <form>
+             <div class="data-group">
+               <p class="company-data">"Company: " + user.company</p>
+             </div>
+           </form>
+         </div>
+         <div class="user-data">
+            <form>
+              <div class="data-group">
+                <p class="email-data">"Email: " + user.email</p>
+              </div>
+            </form>
+          </div>
+          <div class="user-data">
+             <form>
+               <div class="data-group">
+                 <p class="phone-data">"Phone: " + user.phone</p>
+               </div>
+             </form>
+           </div>
+           <div class="user-data">
+              <form>
+                <div class="data-group">
+                  <p class="address-data">"Address: " + user.address</p>
+                </div>
+              </form>
+            </div>
+
+		
+    <div class="change info button">
+       <a href="Change Data.html" class="btn btn-primary">Post</a>
+    </div>
+
+		<script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+		<script src="Disply Data.js"></script>
+	</body>
+</html>
