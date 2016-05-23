@@ -74,6 +74,7 @@ function upload(response,postData){
       response.write("Phone: " + userArray['phone'] + "\n");
       response.write("Address: " + userArray['address'] + "\n");
       response.end();
+      
 //      console.log("match done!");
     }
     else {
@@ -88,5 +89,12 @@ function upload(response,postData){
 
 }
 
+function update(response,postData){
+//  console.log("Request handler 'update' was called.");
+  var db = low("./data/users.json", {storage});
+}
+
+
 exports.start = start;
 exports.upload = upload;
+exports.update = update;
