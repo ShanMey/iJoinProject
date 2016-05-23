@@ -62,19 +62,48 @@ function upload(response,postData){
 //    console.log(userArray);
     if (_.isMatch(userArray, {'password': password})) {
 //      console.log("match!");
-      response.writeHead(200, {"Content-Type": "text/plain"});
-      response.write("Welcome, " + userArray.name['first']
-        + " " + userArray.name['last'] + "!\n");
-      response.write("Balance: " + userArray['balance'] + "\n");
-      response.write("Email: " + userArray['email'] + "\n");
-      response.write("Password: " + userArray['password'] + "\n");
-      response.write("Age: " + userArray['age'] + "\n");
-      response.write("Eye Color: " + userArray['eyeColor'] + "\n");
-      response.write("Company: " + userArray['company'] + "\n");
-      response.write("Phone: " + userArray['phone'] + "\n");
-      response.write("Address: " + userArray['address'] + "\n");
-      response.end();
-      
+//      response.writeHead(200, {"Content-Type": "text/plain"});
+//      response.write("Welcome, " + userArray.name['first']
+//        + " " + userArray.name['last'] + "!\n");
+//      response.write("Balance: " + userArray['balance'] + "\n");
+//      response.write("Email: " + userArray['email'] + "\n");
+//      response.write("Password: " + userArray['password'] + "\n");
+//      response.write("Age: " + userArray['age'] + "\n");
+//      response.write("Eye Color: " + userArray['eyeColor'] + "\n");
+//      response.write("Company: " + userArray['company'] + "\n");
+//      response.write("Phone: " + userArray['phone'] + "\n");
+//      response.write("Address: " + userArray['address'] + "\n");
+//      response.end();
+      var greeting = "Welcome, " + userArray.name['first'] + " ";
+      greeting += userArray.name['last'] + "!";
+      var body = '<html>'+
+        '<head>'+
+        '<meta http-equiv="Content-Type" content="text/html; ' +
+        'charset=UTF=8" />' +
+        '</head>' +
+        '<body>' +
+        '<h1 id = "logo">ACME Financial</h1>' +
+        '<p id="welcome">' + greeting + '</p>' +
+        '<p id="balance">Your balance is: ' + userArray['balance'] + '</p>' +
+        '<p id="email">Email: ' + userArray['email'] + '</p>' +
+        '<p id="password">Password: ' + userArray['password'] + '</p>' +
+        '<p id="age">Age: ' + userArray['age'] + '</p>' +
+        '<p id="eyeColor">Eye Color: ' + userArray['eyeColor'] + '</p>' +
+        '<p id="company">Company: ' + userArray['company'] + '</p>' +
+        '<p id="phone">Phone: ' + userArray['phone'] + '</p>' +
+        '<p id="address">Address: ' + userArray['address'] + '</p>' +
+        '<p id=updatePrompt>To change your data, press Update Info<br><p>' +
+        '<form action="/update" method="post" enctype="text/plain">'+
+        '<input type="submit" value="Update Info" />'+
+        '</form>'+
+        '</body>'+
+        '</html>';
+
+        var parsedBody = body;
+
+        response.writeHead(200, {"Content-Type": "text/html"});
+        response.write(parsedBody);
+        response.end();
 //      console.log("match done!");
     }
     else {
