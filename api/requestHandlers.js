@@ -7,6 +7,7 @@ low.autosave = false;
 var storage = require('lowdb/file-async');
 var util = require('util');
 var express = require('express');
+var dialog = require('dialog');
 //var basicAuth = require('basic-auth-connect');
 //var app = express();
 var db = low("./data/users.json", {storage});
@@ -51,22 +52,40 @@ function upload(response,postData){
 
   var userArray = _.find(db.object, _.matches({'email': email}));
   if (typeof userArray === "undefined") {
-    window.alert("Email not found.  Please enter correct email");
+    dialog.info("Please enter correct email","Email not found",function(err){
+      if(!err) {
+        console.log("User Pressed Ok.");
+      }
+    } );
   }
   else {
-    console.log(userArray);
+//    console.log(userArray);
     if (_.isMatch(userArray, {'password': password})) {
-      console.log("match!");
+//      console.log("match!");
+      response.writeHead(200, {"Content-Type": "text/plain"});
+      response.write("Welcome, " + userArray.name['first']
+        + " " + userArray.name['last'] + "!\n");
+      response.write("Balance: " + userArray['balance'] + "\n");
+      response.write("Email: " + userArray['email'] + "\n");
+      response.write("Password: " + userArray['password'] + "\n");
+      response.write("Age: " + userArray['age'] + "\n");
+      response.write("Eye Color: " + userArray['eyeColor'] + "\n");
+      response.write("Company: " + userArray['company'] + "\n");
+      response.write("Phone: " + userArray['phone'] + "\n");
+      response.write("Address: " + userArray['address'] + "\n");
+      response.end();
+//      console.log("match done!");
     }
     else {
-      console.log("No match.");
+//      console.log("No match.");
+      dialog.info("Please log in again","Password Does Not Match",function(err){
+        if(!err) {
+          console.log("User pressed OK");
+        }
+      });
     }
   }
 
-  response.writeHead(200, {"Content-Type": "text/plain"});
-  response.write("email: " + email + "\n");
-  response.write("password: " + password);
-  response.end();
 }
 
 exports.start = start;

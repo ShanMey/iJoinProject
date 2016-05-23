@@ -5,15 +5,15 @@ function start(route,handle) {
   function onRequest(request,response) {
     var postData = "";
     var pathname = url.parse(request.url).pathname;
-    console.log("Request for " + pathname + " received.");
+//    console.log("Request for " + pathname + " received.");
 
     request.setEncoding("utf8");
 
     request.addListener("data", function(postDataChunk){
       postDataChunkString = postDataChunk.toString('utf8');
       postData += postDataChunkString;
-      console.log("Received POST data chunk '" +
-      postDataChunk + "'.");
+//      console.log("Received POST data chunk '" +
+//      postDataChunk + "'.");
   });
 
   request.addListener("end", function() {
@@ -23,7 +23,7 @@ function start(route,handle) {
   }
 
 http.createServer(onRequest).listen(8888);
-console.log("Server has started.");
+//console.log("Server has started.");
 }
 
 exports.start = start;
