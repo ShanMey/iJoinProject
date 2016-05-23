@@ -1,11 +1,19 @@
-var http = require("http");
+var http = require('http');
+var fs = require('fs');
+var url = require("url");
 var _ = require('lodash');
 var low = require('lowdb');
 low.autosave = false;
 var storage = require('lowdb/file-async');
+var util = require('util');
+var express = require('express');
+//var basicAuth = require('basic-auth-connect');
+//var app = express();
+var db = low("./data/users.json", {storage});
+//console.log(db.object);
 
 function start(response,postData){
-  console.log("Request handler 'start' was called.");
+//  console.log("Request handler 'start' was called.");
 
   var body = '<html>'+
     '<head>'+
@@ -14,9 +22,9 @@ function start(response,postData){
     '</head>' +
     '<body>' +
     '<h1 id = "logo">ACME Financial</h1>' +
-    '<form action="/upload" method="post">'+
-    'Email:      <input type="text" name= "email"><br>' +
-    'Password: <input type="text" name = "password"><br>' +
+    '<form action="/upload" method="post" enctype="text/plain">'+
+    'Email:<br><input type="text" name= "email"><br>' +
+    'Password:<br><input type="password" name = "password"><br>' +
     '<input type="submit" value="Log In" />'+
     '</form>'+
     '</body>'+
@@ -28,28 +36,25 @@ function start(response,postData){
 }
 
 function upload(response,postData){
-  console.log("Request handler 'upload' was called.");
+//  console.log("Request handler 'upload' was called.");
   var db = low("./data/users.json", {storage});
-  var pDArray = postData.split("&");
+//  console.log(db.object);
+  postData = postData.replace("email=","");
+  postData = postData.replace("password=","");
+//  console.log(postData);
+  var pDArray = postData.split("\r\n");
+//  console.log(pDArray);
   var email = pDArray[0];
-  for (var i = 0;i<email.length;i++) {
-    if (email[i] === '=') {
-      email = email.substr(i+1);
-    }
-  }
+//  console.log(email);
   var password = pDArray[1];
-  for (var i = 0;i<password.length;i++) {
-    if (password[i] === '=') {
-      password = password.substr(i+1);
-    }
-  }
+//  console.log(password);
 
-  var userArray = null;
-  userArray = _.find(db, _.matches({'email': email}));
-  if (userArray === null) {
-    console.log("Email not found.  Please enter correct email");
+  var userArray = _.find(db.object, _.matches({'email': email}));
+  if (typeof userArray === "undefined") {
+    window.alert("Email not found.  Please enter correct email");
   }
   else {
+    console.log(userArray);
     if (_.isMatch(userArray, {'password': password})) {
       console.log("match!");
     }

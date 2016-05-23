@@ -10,7 +10,8 @@ function start(route,handle) {
     request.setEncoding("utf8");
 
     request.addListener("data", function(postDataChunk){
-      postData += postDataChunk;
+      postDataChunkString = postDataChunk.toString('utf8');
+      postData += postDataChunkString;
       console.log("Received POST data chunk '" +
       postDataChunk + "'.");
   });
@@ -22,7 +23,7 @@ function start(route,handle) {
   }
 
 http.createServer(onRequest).listen(8888);
-console.log("Server has started.");  
+console.log("Server has started.");
 }
 
 exports.start = start;
