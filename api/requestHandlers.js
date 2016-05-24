@@ -8,6 +8,7 @@ var storage = require('lowdb/file-async');
 var util = require('util');
 var express = require('express');
 var dialog = require('dialog');
+//var jwt = require('jwt-simple');
 //var basicAuth = require('basic-auth-connect');
 //var app = express();
 var db = low("./data/users.json", {storage});
@@ -74,6 +75,7 @@ function upload(response,postData){
 //      response.write("Phone: " + userArray['phone'] + "\n");
 //      response.write("Address: " + userArray['address'] + "\n");
 //      response.end();
+//      var token = jwt.encode(userArray, "iJoinDevTest");
       var greeting = "Welcome, " + userArray.name['first'] + " ";
       greeting += userArray.name['last'] + "!";
       var body = '<html>'+
@@ -93,7 +95,7 @@ function upload(response,postData){
         '<p id="phone">Phone: ' + userArray['phone'] + '</p>' +
         '<p id="address">Address: ' + userArray['address'] + '</p>' +
         '<p id=updatePrompt>To change your data, press Update Info<br><p>' +
-        '<form action="/update" method="post" enctype="text/plain">'+
+        '<form action="./client/update.html" method="post" enctype="text/plain">'+
         '<input type="submit" value="Update Info" />'+
         '</form>'+
         '</body>'+
@@ -101,10 +103,16 @@ function upload(response,postData){
 
         var parsedBody = body;
 
+//        response.setHeader('Set-Cookie', userArray);
         response.writeHead(200, {"Content-Type": "text/html"});
         response.write(parsedBody);
         response.end();
-//      console.log("match done!");
+        fs.writeFile("./data/tmp.json", userArray['email'], function(err){
+          if(err){
+            console.log("Temp file write error.")
+          }
+        });
+//      console.log("userArray:" + userArray);
     }
     else {
 //      console.log("No match.");
@@ -120,8 +128,45 @@ function upload(response,postData){
 
 function update(response,postData){
 //  console.log("Request handler 'update' was called.");
+//  console.log("\nresponse headers:" + response.headers);
+//  console.log("\npostData headers:" + postData.headers);
   var db = low("./data/users.json", {storage});
-}
+  var userEmail = "";
+  var userChanges = "";
+
+  fs.readFile("./data/tmp.json", {encoding:'utf8'},function(err, userEmail){
+    if (err) {
+      console.log("Error opening temp file");
+    }
+    if (userEmail === "") {
+      console.log("Error");
+    }
+    else {
+      var userArray = _.find(db.object, _.matches({'email': userEmail}));
+    }
+  fs.readfile(".data/tmp2.json", {encoding: 'utf8'}, function (err, userChanges){
+    if (err) {
+      console.log("Error opening temp file");
+    }
+    if (userChanges === "") {
+      console.log("Error");
+    }
+    else {
+      for (attribute in userChanges){
+        if (userChanges.attribute !== ""){
+          db(attribute)
+            .chain()
+            .find({email: userEmail})
+            .assign({attribute: userChanges.attribute})
+            .value();
+        }
+      }
+    }
+  })
+  });
+
+//  var userArray = jwt.decode(token, "iJoinDevTest");
+};
 
 
 exports.start = start;

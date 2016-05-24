@@ -1,0 +1,35 @@
+<!doctype html>
+<html ng-app="update">
+<head>
+<meta http-equiv="Content-Type" content="text/html", charset=UTF=8" />
+  <title>Update User Info</title>
+</head>
+<body>
+<h1 id = "logo">ACME Financial<br></h1>
+<p id="instructions">Please change your info, then press submit.<p>
+<div ng-controller="updateController">
+First name:<br>
+<input type="text" ng-model="firstname"><br>
+Last name:<br>
+<input type="text" ng-model="lastname"><br>
+Email:<br>
+<input type="text" ng-model="email"><br>
+Password:<br>
+<input type="text" ng-model="password"><br>
+Age:<br>
+<input type="text" ng-model="age"><br>
+Eye Color:<br>
+<input type="text" ng-model="eyeColor"><br>
+Company:<br>
+<input type="text" ng-model="company"><br>
+Phone:<br>
+<input type="text" ng-model="phone"><br>
+Address:<br>
+<input type="text" ng-model="address"><br>
+<br><br>
+<button ng-click='updateData()'>Submit</button>
+</div>
+<script src="http://code.angularjs.org/1.2.9/angular.min.js"></script>
+<script src="/client/update.js"></script>
+</body>
+</html>
